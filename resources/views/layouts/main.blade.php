@@ -4,12 +4,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Blank Page</title>
+  <title>@yield('title', 'AdminLTE 3 | Blank Page')</title>
+
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- CSS -->
-  @include('layouts.lib.ext-css')
+  <!-- Font Awesome -->
+    @include('layouts.lib.ext-css')
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -74,7 +75,7 @@
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
       <img src="{{url('/admin/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Bengkel Koding</span>
     </a>
 
     <!-- Sidebar -->
@@ -85,8 +86,9 @@
           <img src="{{url('/admin/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
+            <a href="#" class="d-block">{{ Auth::user()->nama }}</a>
+          </div>
+
       </div>
 
       <!-- SidebarSearch Form -->
@@ -121,7 +123,7 @@
     <section class="content">
 
       <!-- Default box -->
-      @yield('content')
+        @yield('content')
       <!-- /.card -->
 
     </section>
@@ -140,6 +142,8 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
+
 @include('layouts.lib.ext-js')
+@yield('scripts')
 </body>
 </html>
