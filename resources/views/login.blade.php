@@ -53,6 +53,10 @@
           </div>
         </div>
       </form>
+      <div class="text-center mt-3">
+        <span style="color:gray;">Dont have an acount?</span>
+        <a href="/register" class="register">Register </a>
+      </div>
     </div>
   </div>
 </div>

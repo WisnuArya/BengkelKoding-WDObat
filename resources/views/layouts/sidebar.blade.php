@@ -4,67 +4,44 @@
   @if (Auth::user()->role == 'dokter')
 
   <li class="nav-item">
-    <a href="#" class="nav-link">
+    <a href="/dashboard-dokter" class="nav-link">
       <i class="nav-icon fas fa-tachometer-alt"></i>
       <p>
-        Dokter
-        <i class="right fas fa-angle-left"></i>
+        Dashboard
       </p>
     </a>
   </li>
   <li class="nav-item">
-    <a href="../widgets.html" class="nav-link">
+    <a href="/list-obat" class="nav-link">
       <i class="nav-icon fas fa-th"></i>
       <p>
         Obat
-        <span class="right badge badge-danger">New</span>
       </p>
     </a>
   </li>
   <li class="nav-item">
-    <a href="#" class="nav-link">
+    <a href="/periksa" class="nav-link">
       <i class="nav-icon fas fa-copy"></i>
       <p>
-        Pemeriksaan
-        <i class="fas fa-angle-left right"></i>
-        <span class="badge badge-info right">6</span>
+        Memeriksa
       </p>
     </a>
   @elseif (Auth::user()->role == 'pasien')
   <li class="nav-item">
-    <a href="#" class="nav-link">
-      <i class="nav-icon fas fa-chart-pie"></i>
+    <a href="/dashboard-pasien" class="nav-link">
+      <i class="nav-icon fas fa-tachometer-alt"></i>
       <p>
-        Pemeriksaan
-        <i class="right fas fa-angle-left"></i>
+        Dashboard
       </p>
     </a>
-    <ul class="nav nav-treeview">
-      <li class="nav-item">
-        <a href="../charts/chartjs.html" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>ChartJS</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="../charts/flot.html" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Flot</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="../charts/inline.html" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Inline</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="../charts/uplot.html" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>uPlot</p>
-        </a>
-      </li>
-    </ul>
+  </li>
+  <li class="nav-item">
+    <a href="/list-dokter" class="nav-link">
+      <i class="nav-icon fas fa-chart-pie"></i>
+      <p>
+        Periksa
+      </p>
+    </a>
   </li>
   @endif
   <form action="{{ route('logout') }}" method="POST" style="display: inline;">

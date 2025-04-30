@@ -21,8 +21,11 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Data Obat</h3>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Data Obat</h3>
+                    <a href="{{ route('obat.create') }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Tambah Obat
+                    </a>
                 </div>
                 <div class="card-body">
                     @if (session('error'))
@@ -32,6 +35,7 @@
                         </div>
                     @endif
                     <table id="example1" class="table table-bordered table-hover">
+                        
                         <thead>
                         <tr>
                             <th>Nama Obat</th>
