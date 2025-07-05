@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
                 'nama' => 'Wisnu',
                 'alamat' => 'Kudus',
                 'no_hp' => '081111222333',
-                'role' => 'dokter',
+                'role' => 'pasien',
                 'email' => 'wisnu@gmail.com',
                 'password' => 'password',
             ],
@@ -42,10 +42,18 @@ class UserSeeder extends Seeder
                 'nama' => 'Dhani',
                 'alamat' => 'Kudus',
                 'no_hp' => '039434873483',
-                'role' => 'pasien',
+                'role' => 'dokter',
                 'email' => 'dhani@gmail.com',
                 'password' => 'password',
-            ]
+            ],
+            [
+                'nama' => 'Ari',
+                'no_hp' => '0987654332',
+                'alamat' => 'semarang kota',
+                'role' => 'admin',
+                'email' => 'ari@gmail.com',
+                'password' => '123456',
+            ],
             ];
         foreach($data as $d){
             User::create([

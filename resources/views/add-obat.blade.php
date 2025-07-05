@@ -42,6 +42,10 @@
                             <label for="harga">Harga</label>
                             <input type="number" class="form-control" id="harga" name="harga" placeholder="Masukkan Harga Obat" required>
                         </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi Obat</label>
+                            <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="Masukkan Deskripsi Obat" required>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

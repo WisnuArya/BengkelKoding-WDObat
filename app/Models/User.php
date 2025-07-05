@@ -58,4 +58,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function pasienModels()
+    {
+        return $this->hasOne(Pasien::class, 'user_id');
+    }
+    public function dokterModels()
+    {
+        return $this->hasOne(Dokter::class, 'user_id');
+    }
 }

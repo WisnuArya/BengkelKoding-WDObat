@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('obat_periksa', function (Blueprint $table) {
+        Schema::create('daftar_poli', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('periksa_id')->constrained()->onDelete('cascade');
-            $table->foreignId('obat_id')->constrained()->onDelete('cascade');
+            $table->foreignId('id_pasien')->constrained('pasien');
+            $table->foreignId('id_jadwal')->constrained('jadwal_periksa');
+            $table->date('tanggal_daftar');
+            $table->string('no_antrean');
+            $table->string('status')->default('Terdaftar'); // tambahkan ini
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('obat_periksa');
+        Schema::dropIfExists('daftar_poli');
     }
 };

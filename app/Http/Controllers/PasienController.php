@@ -6,42 +6,36 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Obat;
 use App\Models\periksa;
-use App\Models\memeriksa;
 
 class PasienController extends Controller
 {
     public function pasien()
     {
-        // Ambil dokter yang sedang login
-        $dokter = auth()->user(); // Mendapatkan data user yang sedang login
 
-        // Pastikan yang login adalah dokter
+        $dokter = auth()->user();
+
+
         if ($dokter->role !== 'dokter') {
             return redirect()->back()->with('error', 'Anda tidak memiliki akses sebagai dokter.');
         }
 
-        // Ambil semua pemeriksaan yang dilakukan oleh dokter yang sedang login
-        $periksas = Periksa::with(['pasien', 'dokter'])
+
+        $periksas = Periksa::with(['pasienModels.user', 'dokter'])
             ->where('id_dokter', $dokter->id)  // Mengambil pemeriksaan berdasarkan id dokter yang login
             ->get();
 
         return view('memeriksa', compact('periksas'));
     }
 
-
-
-
-
     public function edit($id)
     {
-        // Pastikan ambil data periksa beserta relasinya
-        $periksa = Periksa::with(['pasien', 'dokter', 'detailPeriksa.obat'])->findOrFail($id);
+
+        $periksa = Periksa::with(['pasienModels.user', 'dokter', 'detailPeriksa.obat'])->findOrFail($id);
         $obats = Obat::all();
 
-        // Biaya pemeriksaan
+        // Hitung total harga obat
         $biayaPeriksa = $periksa->biaya_periksa ?? 0;
 
-        // Hitung total harga obat
         $totalHargaObat = 0;
         foreach ($periksa->detailPeriksa as $detail) {
             if ($detail->obat) {
@@ -49,8 +43,9 @@ class PasienController extends Controller
             }
         }
 
-        // Total harga = biaya periksa + total harga obat
+
         $totalHarga = $biayaPeriksa + $totalHargaObat;
+
         // Siapkan array ID obat yang dipilih untuk pre-select di form
         $selectedObatIds = [];
         foreach ($periksa->detailPeriksa as $detail) {
@@ -67,22 +62,50 @@ class PasienController extends Controller
             'tanggal' => 'required|date',
             'catatan' => 'required|string',
             'obat_ids' => 'required|array',
+            'obat_ids.*' => 'exists:obats,id',
             'totalHarga' => 'required|numeric',
+            'total_obat' => 'required|numeric',
         ]);
 
-        $periksa = Periksa::findOrFail($id);
+        $periksa = Periksa::with('detailPeriksa')->findOrFail($id);
 
-        $periksa->tgl_periksa = $request->tanggal;
-        $periksa->catatan = $request->catatan;
-        $periksa->biaya_periksa = $request->totalHarga; // Simpan total harga di kolom ini (atau kolom lain sesuai struktur Anda)
-        $periksa->status = 'Diperiksa';
+        // Update data pemeriksaan
+        $periksa->update([
+            'tgl_periksa'     => $request->tanggal,
+            'catatan'         => $request->catatan,
+            'biaya_periksa'   => $request->totalHarga,
+            'totalHarga'      => $request->totalHarga,
+            'total_obat'      => $request->total_obat,
+            'status'          => 'sudah diperiksa',
+            'waktu_diperiksa' => now(),
+        ]);
 
+        // Hapus detail lama (agar tidak duplikat)
+        $periksa->detailPeriksa()->delete();
 
-        $periksa->save();
+        // Simpan ulang ke detail_periksas
+        foreach ($request->obat_ids as $obatId) {
+            $obat = \App\Models\Obat::find($obatId);
 
-        // Sinkronisasi relasi obat (pastikan relasi many-to-many sudah didefinisikan di model)
-        $periksa->obats()->sync($request->obat_ids);
+            if ($obat) {
+                \App\Models\DetailPeriksa::create([
+                    'id_periksa' => $periksa->id,
+                    'id_obat'    => $obat->id,
+                    'jumlah'     => 1, // Bisa disesuaikan jika ada input jumlah
+                    'subtotal'   => $obat->harga,
+                ]);
+            }
+        }
 
         return redirect()->route('pasien.index')->with('success', 'Data pemeriksaan berhasil diperbarui.');
+    }
+
+
+
+
+    public function show($id)
+    {
+        $periksa = periksa::with(['pasien', 'dokter', 'detail'])->findOrFail($id);
+        return view('periksa', compact('periksa'));
     }
 }

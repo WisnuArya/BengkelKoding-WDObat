@@ -7,60 +7,23 @@ use App\Models\Obat;
 
 class ObatController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $obats = Obat::all();
         return view('dashboard', compact('obats'));
     }
-    public function obat(){
+    public function obat()
+    {
         $obats = Obat::all();
         return view('list-obat', compact('obats'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_obat' => 'required|string|max:255',
-            'kemasan' => 'required|string|max:255',
-            'harga' => 'required|numeric|min:0',
-        ]);
-
-        Obat::create([
-            'nama_obat' => $request->nama_obat,
-            'kemasan' => $request->kemasan,
-            'harga' => $request->harga,
-        ]);
-
-        return redirect()->route('obat.index')->with('success', 'Data obat berhasil ditambahkan!');
-    }
-
-    public function create()
-    {
-        return view('add-obat');
-    }
-
     public function edit($id)
-{
-    $obat = Obat::findOrFail($id);
-    return view('edit-obat', compact('obat'));
-}
-
-    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_obat' => 'required|string|max:255',
-            'kemasan' => 'required|string|max:255',
-            'harga' => 'required|numeric|min:0',
-        ]);
-
         $obat = Obat::findOrFail($id);
-        $obat->update([
-            'nama_obat' => $request->nama_obat,
-            'kemasan' => $request->kemasan,
-            'harga' => $request->harga,
-        ]);
-
-        return redirect()->route('obat.index')->with('success', 'Data obat berhasil diperbarui!');
+        return view('edit-obat', compact('obat'));
     }
+
     public function destroy($id)
     {
         try {
@@ -73,6 +36,47 @@ class ObatController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_obat' => 'required|string|max:255',
+            'kemasan' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
+            'deskripsi' => 'required|string',
+        ]);
 
+        $obat = Obat::findOrFail($id);
+        $obat->update([
+            'nama_obat' => $request->nama_obat,
+            'kemasan' => $request->kemasan,
+            'harga' => $request->harga,
+            'deskripsi' => $request->deskripsi,
+        ]);
 
+        return redirect()->route('obat.index')->with('success', 'Data obat berhasil diperbarui!');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_obat' => 'required|string|max:255',
+            'kemasan' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
+            'deskripsi' => 'required|string',
+        ]);
+
+        Obat::create([
+            'nama_obat' => $request->nama_obat,
+            'kemasan' => $request->kemasan,
+            'harga' => $request->harga,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return redirect()->route('obat.index')->with('success', 'Data obat berhasil ditambahkan!');
+    }
+
+    public function create()
+    {
+        return view('add-obat');
+    }
 }

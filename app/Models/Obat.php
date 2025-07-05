@@ -13,7 +13,16 @@ class Obat extends Model
         'nama_obat',
         'kemasan',
         'harga',
+        'deskripsi'
     ];
+    protected function casts(): array
+    {
+        return [
+            'harga' => 'float'
+        ];
+    }
+
+
     public function detailPeriksa(): HasMany
     {
         return $this->hasMany(DetailPeriksa::class, 'id_obat');

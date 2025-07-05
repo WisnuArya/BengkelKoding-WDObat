@@ -30,6 +30,8 @@ class AuthController extends Controller
                 return redirect()->intended('/obat');
             } elseif ($user->role === 'pasien') {
                 return redirect()->intended('/dokter');
+            } elseif ($user->role === 'admin') {
+                return redirect()->intended('/iniadmin');
             }
 
             // Default fallback
@@ -37,7 +39,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau Password Anda Salah.',
+            'email' => 'Email atau Password yang anda masukan salah!',
+            
         ])->onlyInput('email');
     }
     public function logout(Request $request)

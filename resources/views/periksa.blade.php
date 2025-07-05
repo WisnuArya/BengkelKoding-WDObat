@@ -21,6 +21,9 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
+                <th>Tanggal Pemeriksaan</th>
+                <th>Selesai Pemeriksaan</th>
+                <th>Keterangan</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -28,10 +31,20 @@
             @foreach ($periksas as $periksa)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $periksa->pasien->nama ?? '-' }}</td> {{-- Nama pasien --}}
+                <td>{{ $periksa->pasienModels->user->nama ?? '-' }}</td> {{-- Nama pasien --}}
+                <td>{{ \Carbon\Carbon::parse($periksa->tgl_periksa ?? 'N/A')->format('d-m-Y') }}</td>
                 <td>
-                    <a href="{{ route('pasien.edit', $periksa->id) }}" class="btn btn-primary btn-sm">
-                        {{ $periksa->status == 'Diperiksa' ? 'Edit' : 'Periksa' }}
+                    @if ($periksa->waktu_diperiksa)
+                    {{ \Carbon\Carbon::parse($periksa->waktu_diperiksa)->setTimezone('Asia/Jakarta')->format('H:i') }}
+                    @else
+                    Belum Diperiksa
+                    @endif
+                </td>
+                <td>{{$periksa->status == 'Menunggu' ? 'Belum Diperiksa' : ucfirst($periksa->status)}}</td>
+                <td class="text-center">
+                    <a href="{{ route('pasien.edit', $periksa->id) }}"
+                        class="btn btn-sm {{ $periksa->status == 'sudah diperiksa' ? 'btn-primary' : 'btn-warning' }}">
+                        {{ $periksa->status == 'sudah diperiksa' ? 'Edit' : 'Periksa' }}
                     </a>
                 </td>
             </tr>

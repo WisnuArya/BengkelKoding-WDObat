@@ -15,26 +15,25 @@ class ObatSeeder extends Seeder
     {
         $data = [
             [
-                'nama_obat' => 'paracetamol',
-                'kemasan' => 'tablet',
-                'harga' => '12000',
+                'nama_obat' => 'Paracetamol',
+                'kemasan' => 'Tablet',
+                'deskripsi' => 'obat sakit perut',
+                'harga' => 15000,
             ],
             [
-                'nama_obat' => 'hufagrip',
-                'kemasan' => 'botol',
-                'harga' => '13000',
+                'nama_obat' => 'Dextral',
+                'kemasan' => 'Botol',
+                'harga' => 17000,
+                'deskripsi' => 'obat batuk',
             ],
-            [
-                'nama_obat' => 'amoxilin',
-                'kemasan' => 'tablet',
-                'harga' => '14000',
-            ]
         ];
-        foreach($data as $d){
+        foreach ($data as $o) {
             Obat::create([
-                'nama_obat' => $d['nama_obat'],
-                'kemasan' => $d['kemasan'],
-                'harga' => $d['harga'],
+                'nama_obat' => $o['nama_obat'],
+                'kemasan' => $o['kemasan'],
+                'harga' => $o['harga'],
+                'deskripsi' => $o['deskripsi']
+
             ]);
         }
     }

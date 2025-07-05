@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Pasien;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,7 @@ class RegisterController extends Controller
                 'password' => 'required|string|min:8|confirmed',
                 'alamat' => 'required|string|max:20',
                 'no_hp' => 'required|numeric|digits_between:12,13', // Validasi nomor telepon dengan panjang 12 atau 13 digit
+                'no_ktp' => 'required|numeric|digits:16',
             ]
         );
 
@@ -34,6 +36,12 @@ class RegisterController extends Controller
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
 
+        ]);
+        $No_RM = Pasien::generateNoRM();
+        Pasien::firstOrCreate([
+            'user_id' => $user->id,
+            'no_ktp' => $request->no_ktp,
+            'no_rm' => $No_RM,
         ]);
 
         Auth::login($user);

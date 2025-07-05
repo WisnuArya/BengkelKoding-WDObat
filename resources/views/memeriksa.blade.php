@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Memeriksa</title>
+    <title>AdminLTE 3 | DataTables</title>
 
 
     <!-- Theme style -->
@@ -112,6 +112,7 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
+            @include('layouts.header')
         </nav>
         <!-- /.navbar -->
 
@@ -128,7 +129,7 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{url('/admin/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{url('/admin/dist/img/user1-128x128.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">{{ Auth::user()->nama }}</a>
